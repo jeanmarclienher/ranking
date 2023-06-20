@@ -147,6 +147,9 @@ function blurEdit(el)
 	el.removeEventListener("keydown", keydownEdit);	
 }
 
+/*
+ * https://stackoverflow.com/questions/21205785/how-to-make-html5-contenteditable-div-allowing-only-text-in-firefox
+ */
 function insertTextAtSelection(div, txt) {
     //get selection area so we can position insert
     let sel = window.getSelection();
