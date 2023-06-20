@@ -182,6 +182,79 @@ function onExchange() {
 	
 }
 
+function new_dialog() 
+{
+	console.log("choose model");
+	save_as_dialog();
+}
+
+function save_dialog()
+{
+	save();
+}
+
+function pdf_dialog()
+{
+	const dialog = require('electron').remote.dialog;
+    	var path =  document.getElementById('fullpath').innerText;
+
+	var dp = get_os_dir(path);	
+	var f = dialog.showSaveDialog({ properties: [], 
+		defaultPath: dp,  
+			filters : [
+				{ name: 'rank', extensions: ['pdf']}
+				]
+		});
+	if (f && !f.canceled) {
+		var fp = f.filePath || f;
+	console.log(fp);
+		var p = "file:///" + fp.replace(/\\/g, "/");
+		topdf(p);
+	}
+
+}
+
+function save_as_dialog()
+{
+	const dialog = require('electron').remote.dialog;
+    	var path =  document.getElementById('fullpath').innerText;
+
+	var dp = get_os_dir(path);	
+	console.log(dp);
+	var f = dialog.showSaveDialog({ properties: [], 
+		defaultPath: dp,  
+			filters : [
+				{ name: 'rank', extensions: ['html']}
+				]
+		});
+	if (f && f.filePath) {
+    		document.getElementById("exchange").src = f.filePath;
+	console.log(f.filePath);
+	}
+
+}
+
+
+function open_dialog() 
+{
+	const dialog = require('electron').remote.dialog;
+	var path = document.getElementById("exchange").src;
+
+	var dp = get_os_dir(path);	
+	console.log(dp);
+	var f = dialog.showOpenDialog({ properties: ['openFile'], 
+		defaultPath: dp,  
+			filters : [
+				{ name: 'rank', extensions: ['html']}
+				]
+		});
+	if (f) {
+    		document.getElementById("exchange").src = f[0];
+	console.log(f[0]);
+	}
+
+}
+
 function newLine() {
     	var main = document.getElementById('main').firstChild;
 	var row = document.createElement("tr");
@@ -218,6 +291,28 @@ function save()
 	save_file(f, dt);
 }
 
+function get_os_path(filename)
+{	
+	var url = require('url');
+	var u = url.parse(filename);
+	var pa = decodeURIComponent(u.pathname.substr(1)); // for Windows only
+	return pa.replace(/\//g, "\\");
+}
+
+
+function get_os_filename(filename)
+{
+	var p =  get_os_path(filename);
+	return p.substr(p.lastIndexOf("\\") + 1);
+}
+
+function get_os_dir(filename)
+{	
+	var p =  get_os_path(filename);
+	return p.substr(0, p.lastIndexOf("\\") + 1);
+}
+
+
 function save_file(filename, data) 
 {
 	if (!process) {
@@ -225,19 +320,14 @@ function save_file(filename, data)
 		return;
 	}
 	var fs = require('fs');
-	var url = require('url');
-	var u = url.parse(filename);
-	var path = u.pathname.substr(1); // for Windows only
 	try {
-		fs.mkdirSync(path.substr(0, path.lastIndexOf("/")), { recursive: true });
+		fs.mkdirSync(get_os_dir(filename), { recursive: true });
 	} catch (e) {}
-  		console.log(path);
 
-	fs.writeFile(path, data, function(err) {
+	fs.writeFile(get_os_path(filename), data, function(err) {
     		if (err) {
         		return console.log(err);
     		}
-    		console.log("Saved " + path + filename);
 	}); 
 }
 
@@ -307,7 +397,7 @@ return;*/
 		if (error) {
 			console.log(error)
 		} else {
-			save(filename, data);
+			save_file(filename, data);
 		}
 	});
 }
