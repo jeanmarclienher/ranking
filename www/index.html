@@ -2,17 +2,71 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <title>Classement</title>
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <script src="js/index.js"></script>
-        <title>Classement</title>
+        <link rel="stylesheet" href="css/menu.css">
+        <link rel="stylesheet" href="css/cookies.css">
     </head>
     <body>
-	<iframe id="exchange" src="" style="position:absolute;left:-99999999px;"></iframe>
+	<div id="cookies" class="hidden">
+		<span>We use cookies to store information on your device 
+		which helps us to customize and improve your interactions 
+		with us.</span>
+		<a target="_blank" href="https://policies.google.com/technologies/cookies"><span>More information.</span></a>
+		<br>
+	    	<button onclick="Cookies.accept();"><span>Accept and confirm all</span></button>
+	    	<button onclick="Cookies.reject();"><span>Reject all</span></button>
+	</div>
+	<nav><ul>
+		<li><a href="#"><img src="img/logo.png"></a><ul class="submenu">
+			<li><a href="#">Homepage</a></li>
+		</ul></li>
+		<li class="unroll"><a href="#">File</a><ul class="submenu">
+			<li><a href="#">New</a></li>
+			<li><a href="#">Open...</a></li>
+			<li class="unroll"><a href="#">Open recent</a><ul class="submenu">
+				<li>_______</li>
+			</ul></li>
+			<li>_______</li>
+			<li><a href="#">Save</a></li>
+			<li><a href="#">Save as...</a></li>
+			<li>_______</li>
+			<li><a href="#">Export</a></li>
+			<li><a href="#">Import</a></li>
+			<li>_______</li>
+			<li><a href="#">Print</a></li>
+			<li>_______</li>
+			<li><a href="#">Properties</a></li>
+			<li>_______</li>
+			<li><a href="#">Quit</a></li>
+		</ul></li>
+		<li class="unroll"><a href="#">Edit</a><ul class="submenu">
+			<li><a href="#">Undo</a></li>
+			<li><a href="#">Redo</a></li>
+			<li><a href="#">Undo History</a></li>
+			<li>_______</li>
+			<li><a href="#">Cut</a></li>
+			<li><a href="#">Copy</a></li>
+			<li><a href="#">Paste</a></li>
+			<li>_______</li>
+			<li><a href="#">Preferences</a></li>
+		</ul></li>
+		<li class="unroll"><a href="#">Help</a><ul class="submenu">
+			<li><a href="#">About</a></li>
+		</ul></li>
+		<li class="right"><a href="#">&#x2630;</a><ul class="submenu">
+			<li><a href="#">Profile</a></li>
+			<li><a href="#">Sign in</a></li>
+			<li><a href="#">Disconnect</a></li>
+		</ul></li>
+	
+	</ul></nav>
+
         <div class="app" style="display:none">
             <h1>Start</h1>
             <div id="deviceready" class="blink">
@@ -26,9 +80,34 @@
 	    <button onclick="open_dialog();">Ouvrir</button>
 	    <button onclick="save_dialog();">Enregister</button>
 	    <button onclick="pdf_dialog();">PDF</button>
+
+<form id="ajax" class="hidden" action="php/ajax.php"  method="post" onsubmit="" enctype="multipart/form-data">
+<input type="hidden" id="user" name="user" value="" placeholder="username">
+<input type="hidden" id="pass" name="pass" value="" placeholder = "******">
+<input type="hidden" id="func" name="func" value="cookiesok">
+<input type="hidden" id="target" name="target" value=".">
+<input type="hidden" id="size" name="size" value="0">
+<input type="hidden" id="seek" name="seek" value="0">
+<input type="hidden" id="folder" name="folder" value="">
+<input style="display:none" id="files" type="file" multiple_ name="files[]">
+<input type="submit" id="submit" name="submit" value="send">
+</form>
+
             <div id="fullpath"></div>
 	    <table id="main" style_="page-break-before:always;"><tbody></tbody></table>
 	    <div style="page-break-before:always;"> </div>
+      
+	    <div id="footpad"></div> 
+	<footer>
+	<div id="status">Running...</div>
+	</footer> 
+	<iframe id="exchange" src="" style="display:none;position:absolute;"></iframe>
+	<script src="js/myclass.js"></script>
+	<script src="js/translate.js"></script>
+        <script src="js/menu.js"></script>
+	<script src="js/ajax.js"></script>
+	<script src="js/cookies.js"></script>
+        <script src="js/index.js"></script>
         <script src="cordova.js"></script>
     </body>
 </html>

@@ -1,6 +1,15 @@
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
+var MyClass = (typeof window !== 'undefined') ? window.MyClass : require('./js/' + 'myclass.js');
+
+	var c = new MyClass();
+	console.log(c.data);
+
+window.translate = new Translate();
+window.menu = new Menu();
+Cookies.init();
+
 function onDeviceReady()
 {
 	var path = require("os").homedir() + "/Documents/Classement/";

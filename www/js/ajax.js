@@ -1,35 +1,54 @@
 /*******************************************************************************
 
-            7 December MMXXI PUBLIC DOMAIN by Jean-Marc Lienher
+                   MMXXIII PUBLIC DOMAIN by O'ksi'D
 
             The authors disclaim copyright to this source code.
 
  ******************************************************************************/
 
-if (typeof navigator == "undefined") { // nodejs
+(function (root, factory) {
+    var exports = {};
+    factory(exports);
+    var modu = exports["default"];
+    for (var k in exports) {
+        modu[k] = exports[k];
+    }
+        
+    if (typeof module === 'object' && typeof module.exports === 'object') {
+        module.exports = modu;
+    } else if (typeof define === 'function' && define.amd) {
+        define(function() { return modu; }); 
+    } else {
+        root.Ajax = modu;
+    }
+})(this, function(exports) {
+"use strict";
+exports.__esModule = true;
 
-Ajax = require("fs");
+var  Ajax = /** @class */ (function () {
 
-Ajax.mkfolder = function(callback) {
-	//request(callback);
+
+function Ajax() {
+	return this;
 }
 
-} else { // !nodejs /////////////////////////////////////////////////
+Ajax.cookiesok = function(callback) {
+        document.getElementById("func").value = "cookiesok";
+	Ajax.request("text", callback);
+}
 
-Ajax = class Ajax {
-
-static mkfolder(callback) {
+Ajax.mkfolder = function(callback) {
         document.getElementById("func").value = "mkfolder";
 	Ajax.request("text", callback);
 }
 
-static mkdir(path, callback) {
+Ajax.mkdir = function(path, callback) {
         document.getElementById("func").value = "mkdir";
         document.getElementById("target").value = path;
 	Ajax.request("text", callback);
 }
 
-static read(path, seek, size, callback) {
+Ajax.read = function(path, seek, size, callback) {
         document.getElementById("func").value = "read";
         document.getElementById("target").value = path;
         document.getElementById("seek").value = seek;
@@ -37,32 +56,32 @@ static read(path, seek, size, callback) {
 	Ajax.request("arraybuffer", callback);
 }
 
-static filesize(path, callback) 
+Ajax.filesize = function(path, callback) 
 {
         document.getElementById("func").value = "filesize";
         document.getElementById("target").value = path;
 	Ajax.request("text", callback);
 }
 
-static scandir(path, callback) {
+Ajax.scandir = function(path, callback) {
         document.getElementById("func").value = "scandir";
         document.getElementById("target").value = path;
 	Ajax.request("text", callback);
 }
 
-static rmdir(path, callback) {
+Ajax.rmdir = function(path, callback) {
         document.getElementById("func").value = "rmdir";
         document.getElementById("target").value = path;
 	Ajax.request("text", callback);
 }
 
-static unlink(path, callback) {
+Ajax.unlink = function(path, callback) {
         document.getElementById("func").value = "unlink";
         document.getElementById("target").value = path;
 	Ajax.request("text", callback);
 }
 
-static write(path, data, seek, size, callback) {
+Ajax.write = function(path, data, seek, size, callback) {
 	let file = new File([data], path,
 		{type:"application/octet-stream", 
 			lastModified:new Date().getTime()});
@@ -76,7 +95,7 @@ static write(path, data, seek, size, callback) {
 	console.log(document.getElementById("folder").value);
 	Ajax.request("text", callback);
 }
-static request(type, callback) {
+Ajax.request = function(type, callback) {
         const xhr = new XMLHttpRequest();
 	const f = document.getElementById("ajax");
         const fd = new FormData(f);
@@ -107,8 +126,11 @@ static request(type, callback) {
 	f.files.value = "";
 }
 
-}; // class
 
-} // !nodejs
+return Ajax;
+}());
 
+exports.Ajax = Ajax;
+exports.default = Ajax;
 
+});

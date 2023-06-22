@@ -1,5 +1,5 @@
 <?php
-//                PUBLIC DOMAIN by Jean-Marc Lienher
+//                MMXXIII PUBLIC DOMAIN by O'ksi'D
 //
 //             The authors disclaim copyright to this software.
 //
@@ -8,9 +8,30 @@
 	ini_set('display_errors', 'On');
 
 
-include "wp-admin/php/wp.php";
-include "wp-admin/php/session.php";
-if (!isset($_SESSION['UserData']["user"])) exit(-1);
+//include "wp-admin/php/wp.php";
+//include "wp-admin/php/session.php";
+if (!isset($_SESSION['UserData']["user"])) {
+	if (!isset($_POST["func"])) {
+		exit(-1);
+	}
+
+	switch($_POST["func"]){
+	case "cookiesok":
+		header('HTTP/1.1 200 OK');
+		header("Content-type: text/plain");
+		setcookie("accept", "OK", array(
+			'expires' => time() + 60*60*24*30, 
+			'samesite' => 'Strict',
+			'path' => '/',
+			'secure' => true));
+		echo "";
+		exit();
+	case "login":
+		break;
+	default:
+		exit(-1);
+	}
+}
 
 
 
@@ -164,6 +185,7 @@ if (strlen($dn) < 5) {
 ///////////////////////////////////////////////////////////////////////////////
 
 switch ($_POST["func"]) {
+
 case "mkfolder":
 	$folder = gen_folder();
 	$d = $dn . "/" . get_folder($folder);
